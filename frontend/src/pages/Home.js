@@ -1,11 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
-import Chatbot from '../components/Chatbot';
 
 const coFounders = [
   { name: 'Aditya Chatterjee', image: 'pictures/aditya.jpg' },
   { name: 'Aya Albrembaly', image: 'pictures/aya.jpg' },
-  { name: 'Mariam Hejou', image: 'mariam.jpg' },
+  { name: 'Mariam Hejou', image: 'pictures/mariam.jpg' },
   { name: 'Mohammed Alaa', image: 'pictures/alaa.jpg' },
   { name: 'Muath Tuffaha', image: 'pictures/muath.jpg' },
   { name: 'Sami Nakaweh', image: 'pictures/sami.jpg' },

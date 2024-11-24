@@ -2,11 +2,15 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+import openai
 
 app = Flask(__name__)
 CORS(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///µbiomy.db'
 db = SQLAlchemy(app)
+
+# OpenAI API key (replace with your own key)
+openai.api_key = 'YOUR_OPENAI_API_KEY'
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -62,6 +66,22 @@ def get_results(user_id):
         })
     return jsonify({"message": "Order not found"}), 404
 
+@app.route('/chatbot', methods=['POST'])
+def chatbot():
+    data = request.json
+    scores = data['scores']
+    
+    # Generate a prompt based on the scores
+    prompt = f"Neurodegenerative score: {scores['neurodegenerative_score']}%, Diabetes score: {scores['diabetes_score']}%, Obesity score: {scores['obesity_score']}%. What can you tell me about these diseases?"
+    
+    # Call OpenAI API
+    response = openai.Completion.create(
+        engine="davinci",
+        prompt=prompt,
+        max_tokens=150
+    )
+    
+    return jsonify({'response': response.choices[0].text.strip()})
 
 if __name__ == '__main__':
     if not db.engine.table_names():
